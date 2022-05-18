@@ -10,6 +10,6 @@ public class FirstSceneManager : MonoBehaviour
 
     public void end_scene()
     {
-        DataHandler.GetInstance().end_first_scene(typedText.text);
+        Handler.GetInstance().set_user_id_and_load_next(typedText.text);
     }
 }

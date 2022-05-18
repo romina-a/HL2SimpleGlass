@@ -18,7 +18,7 @@ public class Wobble : MonoBehaviour
     //float angular_acceleration_coef = 1;
 
     [SerializeField, Range(-1, 1)]
-    float conditionalTilt = 0;
+    public float conditionalTilt = 0;
     [SerializeField, Range(-180, 180)]
     public float constantTiltX = 0;
     [SerializeField, Range(-180, 180)]
