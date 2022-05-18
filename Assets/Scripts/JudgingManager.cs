@@ -18,7 +18,7 @@ public class JudgingManager : Manager
     [SerializeField]
     string glassColor;
     [SerializeField]
-    GameObject trialno;
+    TextMeshPro trialNum;
 
     Vector3 glassInitPos;
     Vector3 glassInitRot;
@@ -48,8 +48,7 @@ public class JudgingManager : Manager
         }
         else
         {
-            TextMeshPro t = trialno.GetComponent<TextMeshPro>();
-            t.text = "trial: " + (current+1).ToString() + "/" + numSettings.ToString();
+            trialNum.text = "trial: " + (current+1).ToString() + "/" + numSettings.ToString();
             Debug.Log("laoding next in Judging manager");
             glassConditionalTilt = glassSettings[current];
             glass.setConditionalTilt(glassConditionalTilt);
@@ -60,7 +59,6 @@ public class JudgingManager : Manager
 
     public override void end_trial(string choice)
     {
-
         Debug.Log("end_trial");
         Debug.Log("Judging choice is: " + choice);
         Info ti = new Info();
@@ -79,6 +77,7 @@ public class JudgingManager : Manager
         ed.trialInfo = ti;
         ed.trialResult = tr;
         ed.headPoses = GetComponent<HeadPosManager>().getPosData();
+        ed.headRots = GetComponent<HeadPosManager>().getRotData();
         GetComponent<HeadPosManager>().restart();
         Handler.GetInstance().add_trial_data(ed);
 

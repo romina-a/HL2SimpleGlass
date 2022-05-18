@@ -35,6 +35,7 @@ public class TrialData
 {
     public string type;
     public List<Vector3> headPoses = new List<Vector3>();
+    public List<Vector3> headRots = new List<Vector3>();
     public Info trialInfo;
     public Result trialResult;
 }

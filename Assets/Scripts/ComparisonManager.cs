@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 [System.Serializable]
 public class conditionalTilts{
@@ -26,6 +27,8 @@ public class ComparisonManager : Manager
     string glass1color;
     [SerializeField]
     string glass2color;
+    [SerializeField]
+    TextMeshPro trialNum;
 
     Vector3 glass1InitPos;
     Vector3 glass2InitPos;
@@ -58,6 +61,8 @@ public class ComparisonManager : Manager
         }
         else
         {
+            trialNum.text = "trial: " + (current + 1).ToString() + "/" + numSettings.ToString();
+            Debug.Log("laoding next in Comparison manager");
             int coin = Random.Range(0, 2);
             if (coin == 0)
             {
@@ -103,6 +108,7 @@ public class ComparisonManager : Manager
         ed.trialInfo = ti;
         ed.trialResult = tr;
         ed.headPoses = GetComponent<HeadPosManager>().getPosData();
+        ed.headRots = GetComponent<HeadPosManager>().getRotData();
         GetComponent<HeadPosManager>().restart(); ;
         Handler.GetInstance().add_trial_data(ed);
 

@@ -12,10 +12,10 @@ EditorBuildSettings:
     path: Assets/Scenes/B-Next.unity
     guid: f4cc53bafc6bdb04784215221989fda4
   - enabled: 0
-    path: Assets/Scenes/Test1.unity
+    path: Assets/Scenes/ZZZ_Test1_legacy.unity
     guid: d54d0e4db1bcab24b87dfc445a767ecb
   - enabled: 0
-    path: Assets/Scenes/Test2.unity
+    path: Assets/Scenes/ZZZ_Test2_legacy.unity
     guid: d45063d4898a2a94789944bc6679a0c7
   - enabled: 0
     path: Assets/Scenes/Control1.unity
@@ -30,7 +30,7 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/Temp.unity
+    path: Assets/Scenes/Test1.unity
     guid: caf843740d28f0d4a8470d13ab25abdc
   - enabled: 0
     path: Assets/MRTK/Examples/Demos/Input/Scenes/InputActions/InputActionsExample.unity

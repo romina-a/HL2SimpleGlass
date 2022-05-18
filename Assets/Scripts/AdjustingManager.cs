@@ -49,7 +49,7 @@ public class AdjustingManager : Manager
         }
     }
 
-    public override void end_trial(string s)
+    public override void end_trial(string z)
     {
         Info ti = new Info();
 
@@ -65,6 +65,7 @@ public class AdjustingManager : Manager
         ed.trialInfo = ti;
         ed.trialResult = tr;
         ed.headPoses = GetComponent<HeadPosManager>().getPosData();
+        ed.headRots = GetComponent<HeadPosManager>().getRotData();
         GetComponent<HeadPosManager>().restart();
         Handler.GetInstance().add_trial_data(ed);
 
