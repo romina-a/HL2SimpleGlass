@@ -16,6 +16,12 @@ public class Wobble : MonoBehaviour
     //float acceleration_coef = 1;
     //[SerializeField, Range(0.01f, 100)]
     //float angular_acceleration_coef = 1;
+    enum TiltVersion // your custom enumeration
+    {
+        Triangle,
+        Sine,
+        Identity
+    };
 
     [SerializeField, Range(-1, 1)]
     public float conditionalTilt = 0;
@@ -27,13 +33,16 @@ public class Wobble : MonoBehaviour
     [SerializeField]
     float MaxWobble = 0.003f;
     [SerializeField]
-    float WobbleSpeed = 3f;
+    float WobbleFrequency = 3f;
     [SerializeField]
     float Recovery = 2f;
     [SerializeField]
     float angularCoef = 0.0000002f;
-
     [SerializeField]
+    float linearCoef = 2f;
+    [SerializeField]
+    TiltVersion tiltVersion;
+
     float pulse;
     float time = 0f;
 
@@ -50,7 +59,44 @@ public class Wobble : MonoBehaviour
     [SerializeField, Range(0, 1)]
     float acceleration_memory = 0;
 
+    bool rstrt = false;
+
     float elapsed_time_pos, elapsed_time_rot;
+
+    public void setAngularCoef(float input)
+    {
+        angularCoef = input;
+    }
+
+    public void setLinearCoef(float input)
+    {
+        linearCoef = input;
+    }
+
+    public void setMaxWobble(float input)
+    {
+        MaxWobble = input;
+    }
+
+    public void setWobbleFrequency(float input)
+    {
+        WobbleFrequency = input;
+    }
+
+    public void setRecovery(float input)
+    {
+        Recovery = input;
+    }
+
+    public float getXWobble()
+    {
+        return xWobble;
+    }
+
+    public float getZWobble()
+    {
+        return zWobble;
+    }
 
     private void InitMovementVariables()
     {
@@ -97,22 +143,75 @@ public class Wobble : MonoBehaviour
         Debug.DrawLine(transform.position, transform.position + acceleration, new Color(1f, 1f, 1f));
         Debug.DrawLine(transform.position, transform.position + velocity, new Color(1f, 1f, 0f));
 
+        if (rstrt == true)
+        {
+            rstrt = false;
+            acceleration = Vector3.zero;
+            velocity = Vector3.zero;
+            angular_acceleration = Vector3.zero;
+            angular_velocity = Vector3.zero;
+        }
+
     }
 
-    private void ApplyTilt()
+    private void ApplyTilt_depricated()
     {
         float xrot = transform.rotation.eulerAngles.x;
         float zrot = transform.rotation.eulerAngles.z;
+        // translate to -90 to 90
         xrot = xrot > 180 ? xrot - 360 : xrot;
         xrot = xrot > 90 ? xrot - 180 : xrot < -90 ? xrot + 180 : xrot;
         zrot = zrot > 180 ? zrot - 360 : zrot;
         zrot = zrot > 90 ? zrot - 180 : zrot < -90 ? zrot + 180 : zrot;
 
-        xrot = xrot < -45 ? -90 - xrot : xrot > 45 ? 90 - xrot : xrot;
-        zrot = zrot < -45 ? -90 - zrot : zrot > 45 ? 90 - zrot : zrot;
+        if (tiltVersion == TiltVersion.Sine)
+        {
+            // sin 
+            xrot = 45 * Mathf.Sin(xrot * Mathf.PI / 90);
+            zrot = 45 * Mathf.Sin(zrot * Mathf.PI / 90);
+        }
+        else if (tiltVersion == TiltVersion.Triangle)
+        {
+            // triangle 
+            xrot = xrot < -45 ? -90 - xrot : xrot > 45 ? 90 - xrot : xrot;
+            zrot = zrot < -45 ? -90 - zrot : zrot > 45 ? 90 - zrot : zrot;
+        }
+        else if (tiltVersion == TiltVersion.Identity)
+        {
+            xrot = -xrot;
+            zrot = -zrot;
+        }
 
         waterNormal = Quaternion.AngleAxis(constantTiltX + xrot * conditionalTilt, Vector3.right) * waterNormal;
         waterNormal = Quaternion.AngleAxis(constantTiltZ + zrot * conditionalTilt, Vector3.forward) * waterNormal;
+    }
+
+    private void ApplyTilt()
+    {
+        Vector3 object_y = transform.rotation * Vector3.up;
+        Debug.DrawLine(transform.position, transform.position+object_y, new Color(0f, 0f, 0f) );
+        Vector3 axis = Vector3.Normalize(Vector3.Cross(Vector3.up, object_y));
+        Debug.DrawLine(transform.position, transform.position + axis, new Color(0f, 1f, 0f));
+        float angle = Mathf.Rad2Deg*Mathf.Acos(Vector3.Dot(Vector3.up, object_y));
+        angle = angle > 180 ? angle - 360 : angle;
+        angle = angle > 90 ? angle - 180 : angle < -90 ? angle + 180 : angle;
+        if (tiltVersion == TiltVersion.Sine)
+        {
+            // sin 
+            angle = 45 * Mathf.Sin(angle * Mathf.PI / 90);
+        }
+        else if (tiltVersion == TiltVersion.Triangle)
+        {
+            // triangle 
+            angle = angle < -45 ? -90 - angle : angle > 45 ? 90 - angle : angle;
+        }
+        else if (tiltVersion == TiltVersion.Identity)
+        {
+            angle = angle;
+        }
+        waterNormal= Quaternion.AngleAxis(conditionalTilt* angle, axis) * waterNormal;
+        waterNormal = Quaternion.AngleAxis(constantTiltX, Vector3.right) * waterNormal;
+        waterNormal = Quaternion.AngleAxis(constantTiltZ, Vector3.forward) * waterNormal;
     }
 
     private void drawWaterDebugLines()
@@ -138,16 +237,36 @@ public class Wobble : MonoBehaviour
         xWobble = Mathf.Lerp(xWobble, 0, Time.deltaTime * (Recovery));
         zWobble = Mathf.Lerp(zWobble, 0, Time.deltaTime * (Recovery));
 
-        xWobble += Mathf.Clamp(-velocity.x + angular_velocity.z * angularCoef, -MaxWobble, MaxWobble);
-        zWobble += Mathf.Clamp(-velocity.z + angular_velocity.x * angularCoef, -MaxWobble, MaxWobble);
+        xWobble += Mathf.Clamp(-velocity.x* linearCoef + angular_velocity.z * angularCoef, -MaxWobble, MaxWobble);
+        zWobble += Mathf.Clamp(-velocity.z* linearCoef + angular_velocity.x * angularCoef, -MaxWobble, MaxWobble);
 
-        pulse = 2 * Mathf.PI * WobbleSpeed;
+        pulse = 2 * Mathf.PI * WobbleFrequency;
 
         float wobbleAmountX = xWobble * Mathf.Sin(pulse * time);
         float wobbleAmountZ = zWobble * Mathf.Sin(pulse * time);
 
         waterNormal = new Vector3(wobbleAmountX, 1, wobbleAmountZ);
     }
+
+    private void SimpleUpdateNormal2()
+    {
+        time += Time.deltaTime;
+
+        // decrease previous wobble over time
+        xWobble = Mathf.Lerp(xWobble, 0, Time.deltaTime * (Recovery));
+        zWobble = Mathf.Lerp(zWobble, 0, Time.deltaTime * (Recovery));
+
+        xWobble += Mathf.Clamp(-velocity.x * linearCoef + angular_velocity.z * angularCoef, -MaxWobble, MaxWobble);
+        zWobble += Mathf.Clamp(-velocity.z * linearCoef + angular_velocity.x * angularCoef, -MaxWobble, MaxWobble);
+
+        pulse = 2 * Mathf.PI * WobbleFrequency;
+
+        float wobbleAmountX = xWobble * Mathf.Sin(pulse * time);
+        float wobbleAmountZ = zWobble * Mathf.Sin(pulse * time);
+
+        waterNormal = new Vector3(wobbleAmountX, 1, wobbleAmountZ);
+    }
+
 
     private void UpdateNormal()
     {
@@ -172,7 +291,7 @@ public class Wobble : MonoBehaviour
         zWobble += zWobbleV * Time.deltaTime;
 
         // make a sine wave of the decreasing wobble
-        pulse = 2 * Mathf.PI * WobbleSpeed;
+        pulse = 2 * Mathf.PI * WobbleFrequency;
 
         float wobbleAmountX = xWobble * Mathf.Sin(pulse * time);
         float wobbleAmountZ = zWobble * Mathf.Sin(pulse * time);
@@ -196,6 +315,13 @@ public class Wobble : MonoBehaviour
         }
 
         waterNormal = new Vector3(Mathf.Sin(theta), Mathf.Cos(theta), 0);
+    }
+
+    public void restart()
+    {
+        zWobble = 0;
+        xWobble = 0;
+        rstrt = true;
     }
 
     void Start()

@@ -24,6 +24,11 @@ public class InputVisualizer : MonoBehaviour
     [SerializeField]
     int numRequiredInteractions;
 
+    [SerializeField]
+    bool control;
+    [SerializeField]
+    bool next;
+
     bool[] interactions;
     int numActivatedInteractions;
 
@@ -35,9 +40,20 @@ public class InputVisualizer : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Deactivate();
+        if (numRequiredInteractions > 0)
+        {
+            Deactivate();
+        }
+        else
+        {
+            active = true;
+        }
+        if (control)
+        {
+            right.text = "";
+            left.text = "";
+        }
     }
-
 
     public void Activate(int i)
     {
@@ -66,13 +82,19 @@ public class InputVisualizer : MonoBehaviour
         }
         numActivatedInteractions = 0;
 
-        left.color = new Color(0.6352941f, 0.6352941f, 0.6352941f);
-        right.color = new Color(0.6352941f, 0.6352941f, 0.6352941f);
+        if (!control && !next)
+        {
+            left.color = new Color(0.6352941f, 0.6352941f, 0.6352941f);
+            right.color = new Color(0.6352941f, 0.6352941f, 0.6352941f);
+        }
     }
 
     public void select(string choiceinput) // right or left
     {
-        Debug.Log("select: " + choiceinput);
+        if (control || next)
+        {
+            return;
+        }
         if (active == false)
         {
             info.text = deactivated;
@@ -98,22 +120,35 @@ public class InputVisualizer : MonoBehaviour
             info.text = deactivated;
             return;
         }
-        else if (choice == null)
+        else if (choice == null & !control & !next)
         {
             info.text = choose_first;
         }
         else
         {
-            Debug.Log("submit: " + choice);
-            if (choice == "right")
+            if (numRequiredInteractions > 0)
             {
-                myManager.end_trial(rightvalue);
+                Deactivate();
             }
-            if (choice == "left")
+            if (control || next)
             {
-                myManager.end_trial(leftvalue);
+                myManager.end_setting(choice);
+                choice = null;
             }
-            Deactivate();
+            else
+            {
+                if (choice == "right")
+                {
+                    myManager.end_setting(rightvalue);
+                    choice = null;
+                }
+                if (choice == "left")
+                {
+                    myManager.end_setting(leftvalue);
+                    choice = null;
+                }
+            }
+
         }
     }
 }

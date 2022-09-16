@@ -12,7 +12,7 @@ public class JudgingManager : Manager
     [SerializeField]
     List<float> glassSettings;
     [SerializeField]
-    int numSettings;
+    int repeat;
     [SerializeField]
     Glass glass;
     [SerializeField]
@@ -24,32 +24,57 @@ public class JudgingManager : Manager
     Vector3 glassInitRot;
     float glassConditionalTilt;
 
+    int numSettings;
+
+    bool doneWork;
+
+    bool[] settingEnded;
+
     int current;
 
-    private void Start()
+    private void Awake()
     {
+        doneWork = false;
         current = -1;
+        int n = glassSettings.Count;
+        print("judgin manager, init:" + glassSettings);
+        for (int i = 0; i < repeat; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                glassSettings.Add(glassSettings[j]);
+            }
+        }
+        numSettings = glassSettings.Count;
+        print("judgin manager, after: " + glassSettings+" count: "+ numSettings.ToString());
+        settingEnded = new bool[numSettings];
+        for (int i =0; i < numSettings; i++)
+        {
+            settingEnded[i] = false;
+        }
         glassInitPos = glass.transform.position;
         glassInitRot = glass.transform.eulerAngles;
+
+        glassSettings.Shuffle();
 
         load_next_setting();
     }
 
-    public override void load_next_setting()
+    protected override void load_next_setting()
     {
-        Debug.Log("load next setting");
-        //GetComponent<InputDelay>().startDelay();
-
         current = current + 1;
         if (current == numSettings)
         {
             current = -1;
-            Handler.GetInstance().load_next_experiment();
+            if (doneWork == false)
+            {
+                Handler.GetInstance().load_next_experiment();
+                doneWork = true;
+            }
         }
         else
         {
             trialNum.text = "trial: " + (current+1).ToString() + "/" + numSettings.ToString();
-            Debug.Log("laoding next in Judging manager");
             glassConditionalTilt = glassSettings[current];
             glass.setConditionalTilt(glassConditionalTilt);
             glass.transform.position = glassInitPos;
@@ -57,9 +82,9 @@ public class JudgingManager : Manager
         }
     }
 
-    public override void end_trial(string choice)
+    public override void end_setting(string choice)
     {
-        Debug.Log("end_trial");
+        Debug.Log("end_setting");
         Debug.Log("Judging choice is: " + choice);
         Info ti = new Info();
         GlassData glassInfo = new GlassData();
@@ -72,14 +97,26 @@ public class JudgingManager : Manager
 
         Result tr = new Result();
         tr.answer = choice;
+        tr.finalGlass1Pos = glass.transform.position;
+        tr.finalGlass1Rot = glass.transform.eulerAngles;
 
         TrialData ed = new TrialData();
+        ed.type = experimentType;
         ed.trialInfo = ti;
         ed.trialResult = tr;
-        ed.headPoses = GetComponent<HeadPosManager>().getPosData();
-        ed.headRots = GetComponent<HeadPosManager>().getRotData();
-        GetComponent<HeadPosManager>().restart();
-        Handler.GetInstance().add_trial_data(ed);
+        ed.headPoses = GetComponent<InteractionHistoryManager>().getHeadPosData();
+        ed.headRots = GetComponent<InteractionHistoryManager>().getHeadRotData();
+        ed.glass1Poses = GetComponent<InteractionHistoryManager>().getGlass1PosData();
+        ed.glass1Rots = GetComponent<InteractionHistoryManager>().getGlass1RotData();
+
+        GetComponent<InteractionHistoryManager>().restart();
+
+        if (settingEnded[current] == false)
+        {
+            Debug.Log("judgin manager added data, current is: "+current.ToString());
+            Handler.GetInstance().add_trial_data(ed);
+            settingEnded[current] = true;
+        }
 
         load_next_setting();
     }

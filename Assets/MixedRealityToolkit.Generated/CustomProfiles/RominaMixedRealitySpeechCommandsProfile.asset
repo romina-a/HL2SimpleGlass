@@ -46,8 +46,22 @@ MonoBehaviour:
       axisConstraint: 2
   - localizationKey: 
     keyword: Green
-    keyCode: 52
+    keyCode: 0
     action:
       id: 17
       description: SelectRight
+      axisConstraint: 2
+  - localizationKey: 
+    keyword: Begin
+    keyCode: 0
+    action:
+      id: 18
+      description: A
+      axisConstraint: 2
+  - localizationKey: 
+    keyword: Finish
+    keyCode: 0
+    action:
+      id: 18
+      description: A
       axisConstraint: 2

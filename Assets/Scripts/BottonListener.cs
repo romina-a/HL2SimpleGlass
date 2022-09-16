@@ -47,11 +47,14 @@ public class BottonListener : MonoBehaviour
         var inputDevices = new List<UnityEngine.XR.InputDevice>();
         UnityEngine.XR.InputDevices.GetDevices(inputDevices);
 
-        tm.text += "devices:";
-        foreach (var device in inputDevices)
+        if (tm != null)
         {
-            tm.text += string.Format("Device found with name '{0}' and role '{1}'", device.name, device.role.ToString()) + "\n";
-            Debug.Log(string.Format("Device found with name '{0}' and role '{1}'", device.name, device.role.ToString()));
+            tm.text += "devices:";
+            foreach (var device in inputDevices)
+            {
+                tm.text += string.Format("Device found with name '{0}' and role '{1}'", device.name, device.characteristics.ToString()) + "\n";
+                Debug.Log(string.Format("Device found with name '{0}' and role '{1}'", device.name, device.characteristics.ToString()));
+            }
         }
     }
 
@@ -59,12 +62,13 @@ public class BottonListener : MonoBehaviour
     void Update()
     {
         string button = getClicked();
-        tm.text = button;
-        if (/*button == "JS_RB" || */button == "JS_B")
+        if (tm != null)
+            tm.text = button;
+        if (button == "JS_B")
         {
             inputViz.select("right");
         }
-        if (/*button == "JS_LB" || */button == "JS_X")
+        if (button == "JS_X")
         {
             inputViz.select("left");
         }

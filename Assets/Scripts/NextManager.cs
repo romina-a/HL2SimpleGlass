@@ -4,11 +4,24 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 
-public class NextManager : MonoBehaviour
+public class NextManager : Manager
 {
-    public void end_trial()
+    bool doneWork;
+    public void Awake()
     {
-        Handler.GetInstance().load_next_experiment();
+        doneWork = false;
+    }
+    public override void end_setting(string s)
+    {
+        load_next_setting();
+    }
+
+    protected override void load_next_setting()
+    {
+        if (doneWork == false) { 
+            Handler.GetInstance().load_next_experiment();
+            doneWork = true;
+        }
     }
 
 }

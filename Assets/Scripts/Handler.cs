@@ -13,13 +13,25 @@ public class Info
     public GlassData glass1;
     public GlassData glass2;
 
+    public bool fixedRotation;
+    public bool covered;
+    public bool limitedRotation;
+
     public Vector3 initialGlassRotation;
     public Vector2 initialSurfaceTilt;
 }
 
+
+[System.Serializable]
 public class Result
 {
     public string answer;
+    public Vector3 finalGlass1Pos;
+    public Vector3 finalGlass1Rot;
+
+    public Vector3 finalGlass2Pos;
+    public Vector3 finalGlass2Rot;
+
     public Vector2 finallSurfaceTilt;
 }
 
@@ -28,6 +40,9 @@ public class GlassData
 {
     public float conditionalTilt;
     public string color;
+    public bool fixedRotation;
+    public bool fixedTranslation;
+    public Vector3 initialRotation;
 }
 
 [System.Serializable]
@@ -36,6 +51,10 @@ public class TrialData
     public string type;
     public List<Vector3> headPoses = new List<Vector3>();
     public List<Vector3> headRots = new List<Vector3>();
+    public List<Vector3> glass1Poses = new List<Vector3>();
+    public List<Vector3> glass1Rots = new List<Vector3>();
+    public List<Vector3> glass2Poses = new List<Vector3>();
+    public List<Vector3> glass2Rots = new List<Vector3>();
     public Info trialInfo;
     public Result trialResult;
 }
@@ -58,10 +77,8 @@ public class Handler
 
     public static Handler GetInstance()
     {
-        Debug.Log("getinstance");
         if (instance == null)
         {
-            Debug.Log("created");
             instance = new Handler();
         }
         return instance;
@@ -71,7 +88,7 @@ public class Handler
     {
         current = 0;
         trialsData = new List<TrialData>();
-        experiments = new List<string>() {"A-Start", "B-Next", "B-Next 1", "B-Next 2", "B-Next 3", "Test1", "B-Next", "Test2", "B-Next", "Control1", "B-Next" };
+        experiments = new List<string>() {"A-Start", "A-StartInfo", "Test2A", "Test2Mixed", "Z-ControlInfo", "Z-Control", "Z-End" };
     }
 
     public void set_user_id_and_load_next(string UID)
@@ -82,28 +99,34 @@ public class Handler
 
     public void add_trial_data(TrialData trialData)
     {
+        //Debug.Log("handler added this data:");
+        //Debug.Log("info: "+JsonUtility.ToJson(trialData.trialInfo));
+        //Debug.Log("type: " + trialData.type);
+        //Debug.Log("result: " + JsonUtility.ToJson(trialData.trialResult));
         trialsData.Add(trialData);
     }
     public void load_next_experiment()
     {
-        Debug.Log("here");
+        Debug.Log("Handler, load_next_experiment, current-1 is: "+ current.ToString());
         current = (current + 1) % experiments.Count;
         if (current == experiments.Count - 1)
         {
             Debug.Log("saving");
             SaveData();
-            //Application.Quit();
+
+            Debug.Log("quitting");
+            Application.Quit();
         }
-        Debug.Log("load scene");
-        Debug.Log(experiments[current]);
-        SceneManager.LoadScene(experiments[current]);
+        Debug.Log("handler is loading this scene: "+ experiments[current].ToString());
+        SceneManager.LoadSceneAsync(experiments[current], LoadSceneMode.Single);
+
     }
 
     public void SaveData()
     {
+        Debug.Log("Handler, SaveData");
         DateTime now = DateTime.Now;
-        string datetime = now.ToString("yyyyMMddHHmmss");
-        datetime = "datetime";
+        string datetime = now.ToString("yyyy-MM-dd_HH-mm");
         string path = string.Format("{0}/{1}-{2}.json", Application.persistentDataPath, userId, datetime);
         JsonDummy jd = new JsonDummy();
         jd.trials = trialsData;
