@@ -153,16 +153,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myWobble: {fileID: 2138692763}
-  angularCoefMin: 0.000001
-  angularCoefMax: 0.00005
-  linearCoefMin: 0.01
-  linearCoefMax: 0.05
-  maxWobbleMin: 0.01
-  maxWobbleMax: 0.5
-  recoveryMin: 0.01
-  recoveryMax: 0.5
-  wobbleFrequencyMin: 0.5
-  wobbleFrequencyMax: 2.5
+  angularCoefMin: 0.00005
+  angularCoefMax: 0.0005
+  linearCoefMin: 0.001
+  linearCoefMax: 0.01
+  maxWobbleMin: 1
+  maxWobbleMax: 2
+  recoveryMin: 0.5
+  recoveryMax: 2
+  wobbleFrequencyMin: 2.5
+  wobbleFrequencyMax: 4
   angularTxt: {fileID: 1016651035}
   linearTxt: {fileID: 1264496172}
   maxWTxt: {fileID: 692161930}
@@ -814,8 +814,8 @@ MonoBehaviour:
   tickMarks: {fileID: 37415902}
   thumbVisuals: {fileID: 1154254214}
   sliderAxis: 0
-  sliderStartDistance: -0.12518974
-  sliderEndDistance: 0.12518972
+  sliderStartDistance: -0.12522225
+  sliderEndDistance: 0.12522224
   OnValueUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -1655,8 +1655,8 @@ MonoBehaviour:
   tickMarks: {fileID: 1727929509}
   thumbVisuals: {fileID: 2046789722}
   sliderAxis: 0
-  sliderStartDistance: -0.12506996
-  sliderEndDistance: 0.12506995
+  sliderStartDistance: -0.12507115
+  sliderEndDistance: 0.12507114
   OnValueUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -2261,8 +2261,8 @@ MonoBehaviour:
   tickMarks: {fileID: 617215634}
   thumbVisuals: {fileID: 812220875}
   sliderAxis: 0
-  sliderStartDistance: -0.12505658
-  sliderEndDistance: 0.12505656
+  sliderStartDistance: -0.12505825
+  sliderEndDistance: 0.12505823
   OnValueUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -3634,9 +3634,6 @@ MonoBehaviour:
   useCover: 0
   cover: {fileID: 1618388281}
   threshold: 0
-  limitRotation: 0
-  rotationLimit: 90
-  audio: {fileID: 757734122}
 --- !u!54 &757734114
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3952,7 +3949,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 967994966}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4687,8 +4685,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 967994966}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5374,9 +5371,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 848314412}
+  m_Father: {fileID: 771109310}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 7.04, y: 0, z: 0}
 --- !u!114 &967994967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6740,8 +6737,8 @@ MonoBehaviour:
   tickMarks: {fileID: 1700249004}
   thumbVisuals: {fileID: 1813834526}
   sliderAxis: 0
-  sliderStartDistance: -0.12507765
-  sliderEndDistance: 0.12507764
+  sliderStartDistance: -0.12507941
+  sliderEndDistance: 0.1250794
   OnValueUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -7892,7 +7889,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1618388282
 Transform:
   m_ObjectHideFlags: 0
@@ -9252,8 +9249,8 @@ MonoBehaviour:
   tickMarks: {fileID: 792232730}
   thumbVisuals: {fileID: 748756027}
   sliderAxis: 0
-  sliderStartDistance: -0.12508582
-  sliderEndDistance: 0.1250858
+  sliderStartDistance: -0.1251115
+  sliderEndDistance: 0.12511149
   OnValueUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -10125,13 +10122,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138692761}
-  m_LocalRotation: {x: -0, y: -0, z: 0.0012918615, w: 0.9999992}
-  m_LocalPosition: {x: -2.404743e-10, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.95, y: 0.965, z: 0.95}
   m_Children: []
   m_Father: {fileID: 757734121}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.148}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2138692763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10151,7 +10148,7 @@ MonoBehaviour:
   WobbleFrequency: 3
   Recovery: 2
   angularCoef: 0.0000002
-  linearCoef: 0.02
+  linearCoef: 0.002
   tiltVersion: 1
   acceleration_memory: 0
 --- !u!136 &2138692764

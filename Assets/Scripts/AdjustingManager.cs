@@ -25,6 +25,8 @@ public class AdjustingManager : Manager
     GameObject rotator;
     [SerializeField]
     TextMeshPro trialNum;
+    [SerializeField]
+    bool random_order;
 
     Vector3 glassInitPos;
 
@@ -63,7 +65,10 @@ public class AdjustingManager : Manager
         }
         glassInitPos = glass.transform.position;
 
-        experimentSettings.Shuffle();
+        if (random_order == true)
+        {
+            experimentSettings.Shuffle();
+        }
 
         load_next_setting();
     }

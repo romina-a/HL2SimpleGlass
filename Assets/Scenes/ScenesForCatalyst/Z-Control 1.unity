@@ -1092,13 +1092,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   conditionalTilt: 0
+  wrongPointOnRim: 0
   constantTiltX: 0
   constantTiltZ: 0
-  MaxWobble: 0.003
+  MaxWobble: 0
   WobbleFrequency: 3
   Recovery: 2
-  angularCoef: 0.0000002
-  linearCoef: 2
+  angularCoef: 0.0005
+  linearCoef: 0.004
   tiltVersion: 0
   acceleration_memory: 0
 --- !u!136 &556352305
@@ -2020,7 +2021,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Adjust the surface so it's horizontal to the ground
+  m_text: Adjust the surface so it's horizontal (parallel to the ground).
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: afc8299d5d5bbd440a0616c8ecbc7217, type: 2}
   m_sharedMaterial: {fileID: 21340371490990018, guid: afc8299d5d5bbd440a0616c8ecbc7217, type: 2}
@@ -2311,10 +2312,10 @@ MonoBehaviour:
   numRequiredInteractions: 1
   control: 1
   next: 0
-  deactivated: 'Input is Disabled. Please interact with the container(s) to enable
-    input.
+  deactivated: 'Input is Disabled. Please interact with the surface to enable input.
 
-    Please interact with the container to enable input.'
+    Please
+    interact with the container to enable input.'
   choose_first: Answer is not selected. Please choose an answer then submit.
 --- !u!114 &1142308676
 MonoBehaviour:
@@ -2831,12 +2832,13 @@ MonoBehaviour:
     initialSurfaceTilt: {x: 0, y: 45}
   - initialGlassRotation: {x: 0, y: 0, z: 20}
     initialSurfaceTilt: {x: 0, y: -45}
-  - initialGlassRotation: {x: 0, y: 0, z: 0}
+  - initialGlassRotation: {x: 0, y: 0, z: -20}
     initialSurfaceTilt: {x: 0, y: -45}
-  repeat: 2
+  repeat: 1
   glass: {fileID: 1043207415}
   rotator: {fileID: 122374030}
   trialNum: {fileID: 1174605448}
+  random_order: 0
 --- !u!4 &1948940346
 Transform:
   m_ObjectHideFlags: 0

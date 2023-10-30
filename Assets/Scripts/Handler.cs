@@ -88,7 +88,9 @@ public class Handler
     {
         current = 0;
         trialsData = new List<TrialData>();
-        experiments = new List<string>() {"A-Start", "A-StartInfo", "Test2A", "Test2Mixed", "Z-ControlInfo", "Z-Control", "Z-End" };
+        //experiments = new List<string>() {"A-Start", "A-StartInfo", "Test2A", "Test2Mixed", "Z-ControlInfo", "Z-Control", "Z-End" }; //Original
+        //experiments = new List<string>() {"A-Start", "Test2A", "Test2Mixed", "Z-End"}; //for SUS
+        experiments = new List<string>() {"Test2Mixed", "Z-Control", "Z-End" }; //for catalyst
     }
 
     public void set_user_id_and_load_next(string UID)
@@ -109,14 +111,14 @@ public class Handler
     {
         Debug.Log("Handler, load_next_experiment, current-1 is: "+ current.ToString());
         current = (current + 1) % experiments.Count;
-        if (current == experiments.Count - 1)
-        {
-            Debug.Log("saving");
-            SaveData();
+        //if (current == experiments.Count - 1)
+        //{
+        //    Debug.Log("saving");
+        //    SaveData();
 
-            Debug.Log("quitting");
-            Application.Quit();
-        }
+        //    Debug.Log("quitting");
+        //    Application.Quit();
+        //} commented for Catalyst
         Debug.Log("handler is loading this scene: "+ experiments[current].ToString());
         SceneManager.LoadSceneAsync(experiments[current], LoadSceneMode.Single);
 

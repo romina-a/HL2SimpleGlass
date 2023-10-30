@@ -324,7 +324,7 @@ Transform:
   m_GameObject: {fileID: 65293280}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
   m_Children: []
   m_Father: {fileID: 1102568898}
   m_RootOrder: 0
@@ -342,13 +342,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   conditionalTilt: 0
+  wrongPointOnRim: 0
   constantTiltX: 0
   constantTiltZ: 0
-  MaxWobble: 0.5
-  WobbleFrequency: 2.5
-  Recovery: 0.5
-  angularCoef: 0.000002
-  linearCoef: 0.1
+  MaxWobble: 1
+  WobbleFrequency: 3
+  Recovery: 1
+  angularCoef: 0.0005
+  linearCoef: 0.004
   tiltVersion: 0
   acceleration_memory: 0
 --- !u!136 &65293283
@@ -1265,7 +1266,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Which surface looks more realistic?
+  m_text: Which one looks more realistic?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: afc8299d5d5bbd440a0616c8ecbc7217, type: 2}
   m_sharedMaterial: {fileID: 21340371490990018, guid: afc8299d5d5bbd440a0616c8ecbc7217, type: 2}
@@ -1756,7 +1757,7 @@ Transform:
   m_GameObject: {fileID: 1044078661}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
   m_Children: []
   m_Father: {fileID: 1476979044}
   m_RootOrder: 0
@@ -1774,13 +1775,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   conditionalTilt: 0
+  wrongPointOnRim: 0
   constantTiltX: 0
   constantTiltZ: 0
-  MaxWobble: 0.5
-  WobbleFrequency: 2.5
-  Recovery: 0.5
-  angularCoef: 0.000002
-  linearCoef: 0.1
+  MaxWobble: 1
+  WobbleFrequency: 3
+  Recovery: 1
+  angularCoef: 0.0005
+  linearCoef: 0.004
   tiltVersion: 0
   acceleration_memory: 0
 --- !u!136 &1044078664
@@ -2314,7 +2316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1362985212
 Transform:
   m_ObjectHideFlags: 0
@@ -2677,7 +2679,7 @@ MonoBehaviour:
   rotateLerpTime: 0.001
   scaleLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: 1476979041}
+  constraintsManager: {fileID: 1102568895}
   elasticsManager: {fileID: 0}
   onManipulationStarted:
     m_PersistentCalls:
@@ -3115,7 +3117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1663816743
 Transform:
   m_ObjectHideFlags: 0
@@ -3254,47 +3256,12 @@ MonoBehaviour:
   experimentType: Comparison
   glassSettings:
   - tilt1: 0
-    tilt2: 0.3
+    tilt2: 1
     zRotation1: 0
     zRotation2: 0
     cover: 0
   - tilt1: 0
-    tilt2: 0.3
-    zRotation1: 0
-    zRotation2: 0
-    cover: 1
-  - tilt1: 0
-    tilt2: -0.3
-    zRotation1: 0
-    zRotation2: 0
-    cover: 0
-  - tilt1: 0
-    tilt2: -0.3
-    zRotation1: 0
-    zRotation2: 0
-    cover: 1
-  - tilt1: 0
-    tilt2: 0.5
-    zRotation1: 0
-    zRotation2: 0
-    cover: 0
-  - tilt1: 0
-    tilt2: 0.5
-    zRotation1: 0
-    zRotation2: 0
-    cover: 1
-  - tilt1: 0
-    tilt2: -0.5
-    zRotation1: 0
-    zRotation2: 0
-    cover: 0
-  - tilt1: 0
-    tilt2: -0.5
-    zRotation1: 0
-    zRotation2: 0
-    cover: 1
-  - tilt1: 0
-    tilt2: 0.7
+    tilt2: -1
     zRotation1: 0
     zRotation2: 0
     cover: 0
@@ -3302,66 +3269,21 @@ MonoBehaviour:
     tilt2: 0.7
     zRotation1: 0
     zRotation2: 0
-    cover: 1
-  - tilt1: 0
-    tilt2: -0.7
-    zRotation1: 0
-    zRotation2: 0
     cover: 0
   - tilt1: 0
     tilt2: -0.7
     zRotation1: 0
     zRotation2: 0
-    cover: 1
-  - tilt1: 0.3
-    tilt2: -0.3
-    zRotation1: 0
-    zRotation2: 0
     cover: 0
-  - tilt1: 0.3
-    tilt2: -0.3
-    zRotation1: 0
-    zRotation2: 0
-    cover: 1
-  - tilt1: 0.3
-    tilt2: 0.5
-    zRotation1: 0
-    zRotation2: 0
-    cover: 0
-  - tilt1: 0.3
-    tilt2: 0.5
-    zRotation1: 0
-    zRotation2: 0
-    cover: 1
-  - tilt1: -0.3
-    tilt2: -0.5
-    zRotation1: 0
-    zRotation2: 0
-    cover: 0
-  - tilt1: -0.3
-    tilt2: -0.5
-    zRotation1: 0
-    zRotation2: 0
-    cover: 1
-  - tilt1: 0
-    tilt2: 1
-    zRotation1: 0
-    zRotation2: 0
-    cover: 0
-  - tilt1: 0
-    tilt2: 1
-    zRotation1: 0
-    zRotation2: 0
-    cover: 1
-  repeat: 4
+  repeat: 1
   glass1: {fileID: 1102568890}
   glass2: {fileID: 1476979036}
   glass1color: Green
   glass2color: Purple
   trialNum: {fileID: 2048930812}
   fixedRotation: 0
-  covered: 0
   limitedRotation: 0
+  random_order: 1
 --- !u!1 &2035645671
 GameObject:
   m_ObjectHideFlags: 0

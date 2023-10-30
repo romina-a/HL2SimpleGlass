@@ -9,8 +9,8 @@ public class ExampleScript : MonoBehaviour
 
     void Start()
     {
-        audioData = GetComponent<AudioSource>();
-        audioData.Play(0);
+        //audioData = GetComponent<AudioSource>();
+        //audioData.Play(0);
         Debug.Log("started");
     }
 
@@ -48,8 +48,8 @@ public class Glass : MonoBehaviour
     void Awake()
     {
         myWobble = GetComponentInChildren<Wobble>();
-        GetComponent<AudioSource>().loop = true;
-        GetComponent<AudioSource>().Pause();
+        //GetComponent<AudioSource>().loop = true;
+        //GetComponent<AudioSource>().Pause();
         cover.SetActive(false);
     }
 

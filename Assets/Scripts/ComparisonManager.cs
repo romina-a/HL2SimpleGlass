@@ -33,8 +33,11 @@ public class ComparisonManager : Manager
     [SerializeField]
     TextMeshPro trialNum;
     [SerializeField]
-    bool fixedRotation, covered, limitedRotation;
+    bool fixedRotation, limitedRotation;
+    [SerializeField]
+    bool random_order;
 
+    bool covered;
 
     Vector3 glass1InitPos;
     Vector3 glass2InitPos;
@@ -87,7 +90,10 @@ public class ComparisonManager : Manager
         glass1InitRot = glass1.transform.eulerAngles;
         glass2InitRot = glass2.transform.eulerAngles;
 
-        glassSettings.Shuffle();
+        if (random_order == true)
+        {
+            glassSettings.Shuffle();
+        }
 
         load_next_setting();
     }
